@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#root {
+  height: 100dvh;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 8px;
+}
+
+.spinner-border {
+  align-self: center;
+}

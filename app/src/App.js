@@ -4,14 +4,13 @@ import Header from './components/Header/Header';
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
-import ApiPage from './api/ApiPage';
 import MakeupTable from './components/Table/MakeupTable';
 import CardsTable from './components/Table/CardsTable';
 import JSONPlaceholderTable from './components/Table/JSONPlaceholderTable';
 
 const App = () => {
   return (
-    <div>
+    <div className='mainContent'>
       <Header />
       <NavigationBar />
       <Routes>
@@ -19,23 +18,17 @@ const App = () => {
         <Route
           path="/jsonplaceholder"
           element={
-            <ApiPage
-              Content={JSONPlaceholderTable}
-            />}
+            <JSONPlaceholderTable />}
         />
         <Route
           path="/makeup"
           element={
-            <ApiPage
-              Content={MakeupTable}
-            />
+            <MakeupTable />
           }
         />
         <Route
           path="/deckofcards"
-          element={<ApiPage
-            Content={CardsTable}
-          />}
+          element={<CardsTable />}
         />
       </Routes>
       <Footer />
