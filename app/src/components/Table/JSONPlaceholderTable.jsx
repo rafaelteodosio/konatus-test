@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Filter from '../Filter/Filter';
 import GenericTable from '.';
 import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
+import SearchFilter from '../Filter/Search';
 
-function JSONPlaceholderTable({ data, setData }) {
-  const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+function JSONPlaceholderTable() {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState([]);
-  const [queryString, setQueryString] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -24,12 +26,13 @@ function JSONPlaceholderTable({ data, setData }) {
       .catch(error => {
         console.error("There was an error fetching the data!", error);
       });
-  }, []);
-  return loading ? <Spinner animation="border" /> : (
-    <>
-      <Filter onFilterChange={setQueryString} />
-      <GenericTable columns={columns} items={data} />
-    </>
+  }, [setData]);
+
+  return (
+    <div className="mainContent container mt-4">
+      <SearchFilter data={data} columns={columns} setFilteredData={setFilteredData} />
+      {loading ? <Spinner animation="border" /> : <GenericTable columns={columns} items={filteredData} />}
+    </div>
   )
 }
 

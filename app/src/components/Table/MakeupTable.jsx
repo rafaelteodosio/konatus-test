@@ -5,24 +5,35 @@ import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
 import SearchFilter from '../Filter/Search';
 
-function MakeupTable({ data, setData }) {
-  const apiUrl = 'https://makeup-api.herokuapp.com/api/v1/products.json';
-  const [queryString, setQueryString] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+const makeupTypes = [
+  'Blush',
+  'Bronzer',
+  'Eyebrow',
+  'Eyeliner',
+  'Eyeshadow',
+  'Foundation',
+  'Lip liner',
+  'Lipstick',
+  'Mascara',
+  'Nail polish'
+]
 
-  const makeupColumns = ['id', 'brand', 'name', 'price', 'api_featured_image'];
+const makeupColumns = ['id', 'brand', 'name', 'price', 'api_featured_image'];
+const apiUrl = 'https://makeup-api.herokuapp.com/api/v1/products.json';
+
+function MakeupTable() {
+  const [data, setData] = useState([]);
+  const [queryString, setQueryString] = useState(makeupTypes[0]);
+  const [loading, setLoading] = useState(true);
+  const [filteredData, setFilteredData] = useState([]);
+
   const makeupRenderers = {
     api_featured_image: (url) => <img src={url} alt="product" width="50" />
   };
 
-  const onFilterChange = () => {
-
-  }
-
   useEffect(() => {
     setLoading(true);
-    axios.get(apiUrl)
+    axios.get(`${apiUrl}${queryString?.length ? `?product_type=${queryString}` : ''}`)
       .then(response => {
         setData(response.data);
         setLoading(false);
@@ -30,23 +41,17 @@ function MakeupTable({ data, setData }) {
       .catch(error => {
         console.error("There was an error fetching the data!", error);
       });
-  }, [setData]);
+  }, [queryString, setData]);
 
-  useEffect(() => {
-    const filteredData = data.filter(item => {
-      return makeupColumns.some(col => {
-        const value = item[col];
-        return value && typeof value !== 'object' && value.toString().toLowerCase().includes(search.toLowerCase());
-      });
-    });
-  }, [data,search])
-
-  return loading ? <Spinner animation="border" /> : (
-    <>
-      <SearchFilter data={data} columns={makeupColumns} onSearchChange={setSearch} />
-      <Filter onFilterChange={setQueryString} />
-      <GenericTable columns={makeupColumns} items={data} customRenderers={makeupRenderers} />
-    </>
+  return (
+    <div className="mainContent container mt-4">
+      <SearchFilter data={data} columns={makeupColumns} setFilteredData={setFilteredData} />
+      <Filter onFilterChange={setQueryString} options={makeupTypes} />
+      {loading ?
+        <Spinner animation="border" />
+        :
+        <GenericTable columns={makeupColumns} items={filteredData} customRenderers={makeupRenderers} />}
+    </div>
   )
 }
 
