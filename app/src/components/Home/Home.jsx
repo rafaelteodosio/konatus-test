@@ -2,9 +2,9 @@ import React from 'react';
 
 const Home = () => {
   return (
-    <div className="container mt-4">
-      <h2>Welcome to the API Consumer Interface</h2>
-      <p>Select an API from the navigation bar to see the data.</p>
+    <div className="fullHeight container mt-4">
+      <h2>Bem-vindo a Konatus Interface</h2>
+      <p>Selecione uma API na barra de navegação para a visualização dos dados.</p>
     </div>
   );
 };

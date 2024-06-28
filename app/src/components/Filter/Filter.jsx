@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { InputGroup, Form, FormControl } from 'react-bootstrap';
+import { InputGroup, Form } from 'react-bootstrap';
 
 const Filter = ({ onFilterChange, options = [] }) => {
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(options[0] || '');
   
   const handleOptionChange = (e) => {
     const option = e.target.value;

@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormControl, InputGroup } from 'react-bootstrap';
 
-function SearchFilter({data, columns, onSearchChange}) {
+function SearchFilter({ data, columns, setFilteredData}) {
   
   const [search, setSearch] = useState('');
 
   const handleSearchChange = (e) => {
     const searchValue = e.target.value;
     setSearch(searchValue);
-    onSearchChange(search);
   };
+
+  useEffect(() => {
+    const newFilteredData = data.filter(item => {
+      return columns.some(col => {
+        const value = item[col];
+        return value && typeof value !== 'object' && value.toString().toLowerCase().includes(search.toLowerCase());
+      });
+    });
+    setFilteredData(newFilteredData);
+  }, [data, search, columns, setFilteredData])
 
   return (
     <InputGroup className="mb-3">

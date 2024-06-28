@@ -2,8 +2,8 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <header style={{backgroundColor: 'rgb(237 119 0)'}} className="text-white text-center py-3">
-      <h1>Konatus Interface</h1>
+    <header className="text-white text-center py-3">
+      <img src='company.webp' alt='company' />
     </header>
   );
 };
