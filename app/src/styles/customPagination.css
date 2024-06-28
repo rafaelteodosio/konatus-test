@@ -1,0 +1,17 @@
+.custom-pagination .page-link {
+  color: rgb(33 37 41);
+}
+
+.custom-pagination .page-link:hover {
+  color: rgb(33 37 41);
+}
+
+.custom-pagination .page-item.active .page-link {
+  color: #ffffff;
+  background-color: rgb(33 37 41);
+  border-color: rgb(33 37 41);
+}
+
+.custom-pagination .page-link:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
