@@ -25,3 +25,7 @@
 .spinner-border {
   align-self: center;
 }
+
+.sortable, .form-select {
+  cursor: pointer;
+}

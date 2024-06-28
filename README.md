@@ -12,6 +12,8 @@
     ```bash
     npm install
     ```
+    Em caso de erro tente:
+    ```npm install --force```
 
 3. Inicie o projeto:
     ```bash

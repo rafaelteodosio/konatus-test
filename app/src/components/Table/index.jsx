@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
 import TablePagination from '../Pagination/TablePagination';
 
 function GenericTable({ columns, items, customRenderers }) {
@@ -14,43 +14,36 @@ function GenericTable({ columns, items, customRenderers }) {
     if (items) {
       setCurrentPage(1);
     }
-  }, [items])
+  }, [items]);
 
-  if (currentItems?.length > 0) {
-    return (
-      <>
-        <div className='tableContainer'>
-          <Table fullHeight striped bordered hover>
-            <thead>
-              <tr>
-                {columns.map((col, index) => (
-                  <th key={index}>{col}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item, index) => (
-                <tr key={index}>
-                  {columns.map((col, i) => (
-                    <td key={i}>
-                      {customRenderers?.[col]
-                        ? customRenderers[col](item[col])
-                        : typeof item[col] === 'object' || Array.isArray(item[col])
-                          ? JSON.stringify(item[col])
-                          : item[col]
-                      }
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-        <TablePagination items={items} itemsPerPage={itemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      </>
-    );
-  }
-  return <p>No data available</p>;
+  const columnsWithFormatters = columns.map(col => ({
+    dataField: col,
+    text: col.charAt(0).toUpperCase() + col.slice(1),
+    sort: true,
+    formatter: (cell) => customRenderers?.[col]
+      ? customRenderers[col](cell)
+      : typeof cell === 'object' || Array.isArray(cell)
+        ? JSON.stringify(cell)
+        : cell
+  }));
+
+  return (
+    currentItems?.length ? (
+      <div className="tableContainer">
+      <BootstrapTable
+        keyField="id"
+        data={currentItems}
+        columns={columnsWithFormatters}
+        striped
+        hover
+        condensed
+      />
+      <TablePagination items={items} itemsPerPage={itemsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+    </div>
+    ) : (
+      <p>Nenhum valor correspondente encontrado</p>
+    )
+  );
 }
 
 export default GenericTable;
